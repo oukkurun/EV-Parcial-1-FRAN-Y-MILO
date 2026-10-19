@@ -12,7 +12,6 @@ public class Boss : MonoBehaviour
     [SerializeField] GameObject PlayerReference;
 
     [Header("Animaciones")]
-    [Tooltip("Animator del objeto Sprite. Estados esperados: Intro, Idle, Ataque, Hurt, Muerte")]
     [SerializeField] Animator animator;
 
     [Header("Vida")]
@@ -36,7 +35,6 @@ public class Boss : MonoBehaviour
     [SerializeField, Range(0f, 1f)] float probabilidadParry = 0.25f;
 
     [Header("Ritmo")]
-    [Tooltip("Pausa entre que termina la intro y sale el primer ataque")]
     [SerializeField] float esperaInicial = 1.5f;
     [SerializeField] float pausaEntreAtaques = 1.5f;
 
