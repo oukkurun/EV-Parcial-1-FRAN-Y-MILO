@@ -6,7 +6,6 @@ public class ColisionDano : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        // Si la bala es normal O si es parryable (y llegó hasta acá porque fallaste el parry)
         if (other.CompareTag("BalaNormal") || other.CompareTag("BalaParry"))
         {
             vidaJugador.RecibirDano(1);
