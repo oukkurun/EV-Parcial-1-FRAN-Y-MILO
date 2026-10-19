@@ -7,6 +7,8 @@ public class AccionParry : MonoBehaviour
     [Range(0f, 1f)]
     [SerializeField] private float limiteZonaToque = 0.5f;
 
+    public BalaParry BalaParaParrear;
+
     public event System.Action AlHacerParryExitoso;
     public event System.Action AlMostrarImagenParry;
     public event System.Action AlOcultarImagenParry;
@@ -64,14 +66,9 @@ public class AccionParry : MonoBehaviour
                 if (proporcionY <= limiteZonaToque)
                 {
                     parryExitoso = true;
-                    
-                    if (AlHacerParryExitoso != null)
-                    {
-                        AlHacerParryExitoso.Invoke();
-                    }
-                    
+                    AlHacerParryExitoso?.Invoke();
+                    Debug.Log("0 ¡Parry Exitoso!");
                     TerminarOportunidadParry();
-                    Debug.Log("¡Parry Exitoso!");
                 }
             }
         }

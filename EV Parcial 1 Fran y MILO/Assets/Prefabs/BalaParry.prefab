@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 8714981996959722110}
   m_Layer: 0
   m_Name: BalaParry
-  m_TagString: Untagged
+  m_TagString: BalaParry
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -126,8 +126,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 220f99154eed9354aa39f0fa7983e2ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BalaParry
-  velocidad: 0.6
-  tiempoDeVida: 26.35
+  velocidad: 1.98
+  tiempoDeVida: 26.8
   multiplicadorVelocidadDevuelta: 1.5
 --- !u!54 &8714981996959722110
 Rigidbody:
