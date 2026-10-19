@@ -6,8 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Escena Milo.unity
-    guid: 99c9720ab356a0642a771bea13969a05
+    path: Assets/Scenes/Escena de prueba.unity
+    guid: 0845ec3e17bc2c44ab5dbf9aca5025cd
   m_configObjects:
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: 57edaed6326017f4d86a5cae3b8fa082, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}

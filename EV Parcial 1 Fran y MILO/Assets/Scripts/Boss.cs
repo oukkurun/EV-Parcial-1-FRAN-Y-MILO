@@ -11,6 +11,10 @@ public class Boss : MonoBehaviour
     [SerializeField] GameObject BalaParry;
     [SerializeField] GameObject PlayerReference;
 
+    [Header("Animaciones")]
+    [Tooltip("Animator del objeto Sprite. Estados esperados: Intro, Idle, Ataque, Hurt, Muerte")]
+    [SerializeField] Animator animator;
+
     [Header("Vida")]
     [SerializeField] int vidas = 4;
 
@@ -32,6 +36,7 @@ public class Boss : MonoBehaviour
     [SerializeField, Range(0f, 1f)] float probabilidadParry = 0.25f;
 
     [Header("Ritmo")]
+    [Tooltip("Pausa entre que termina la intro y sale el primer ataque")]
     [SerializeField] float esperaInicial = 1.5f;
     [SerializeField] float pausaEntreAtaques = 1.5f;
 
@@ -53,6 +58,8 @@ public class Boss : MonoBehaviour
     const int CantidadPatrones = 3;
     int ultimoPatron = -1;
 
+    bool muriendo = false;
+
     public void AsignarJugador(GameObject jugador)
     {
         PlayerReference = jugador;
@@ -60,27 +67,43 @@ public class Boss : MonoBehaviour
 
     void Start()
     {
+        if (animator == null)
+        {
+            animator = Sprite.GetComponent<Animator>();
+        }
         if (PlayerReference != null)
         {
             alturaActual = PlayerReference.transform.position.y + offsetAlturaJugador;
         }
-        else if (Sprite != null)
+        else
         {
-            alturaActual = Sprite.transform.position.y;
+            alturaActual = transform.position.y;
         }
-        StartCoroutine(BucleDeAtaques());
+
+        StartCoroutine(SecuenciaInicial());
     }
 
     void Update()
     {
+        // Sprite del jefe mira siempre frente al jugador estilo Doom
         if (PlayerReference != null && Sprite != null)
         {
-            Sprite.transform.rotation = PlayerReference.transform.rotation * Quaternion.Euler(90f, 180f, 0f);
+            Sprite.transform.rotation = PlayerReference.transform.rotation;
         }
         ActualizarAltura();
     }
 
+    // Reproduce la intro, espera a que termine y recién ahí arranca con los patrones
+    IEnumerator SecuenciaInicial()
+    {
+        if (animator != null)
+        {
+            animator.Play("Intro", 0, 0f);
+            yield return StartCoroutine(EsperarFinAnimacion("Intro"));
+        }
 
+        yield return StartCoroutine(BucleDeAtaques());
+    }
 
     // Arranca con un patrón al azar
     IEnumerator BucleDeAtaques()
@@ -104,6 +127,7 @@ public class Boss : MonoBehaviour
             yield return new WaitForSeconds(pausaEntreAtaques);
         }
     }
+
     IEnumerator PatronOleadasIntercaladas() // Patrón 1 dispara oleadas de X balas con Y separación e intercala en direcciones contrarias en la próxima oleada
     {
         float separacion = (anguloMaximo * 2f) / (balasPorOleada + 1);
@@ -121,6 +145,8 @@ public class Boss : MonoBehaviour
                 desfase = 0f;
             }
 
+            ReproducirAtaque();
+
             for (int i = 0; i < balasPorOleada; i++)
             {
                 float angulo = -anguloMaximo + separacion * (i + 1) + desfase;
@@ -136,6 +162,8 @@ public class Boss : MonoBehaviour
     {
         for (int i = 0; i < cantidadDeTriples; i++)
         {
+            ReproducirAtaque();
+
             float anguloJugador = AnguloHaciaJugador();
 
             Disparar(DirDesdeAngulo(anguloJugador, true), ElegirBala());
@@ -151,6 +179,8 @@ public class Boss : MonoBehaviour
     {
         for (int i = 0; i < disparosFrancotirador; i++)
         {
+            ReproducirAtaque();
+
             Disparar(DirDesdeAngulo(AnguloHaciaJugador(), true), ElegirBala());
 
             if (Random.value < probabilidadDistraccion)
@@ -240,8 +270,7 @@ public class Boss : MonoBehaviour
             float distHorizontal = new Vector2(haciaJugador.x, haciaJugador.z).magnitude;
             if (distHorizontal > 0.01f)
             {
-                // La componente vertical no cambia el signo del producto punto con la normal,
-                // asi que la bala nunca atraviesa la pared.
+                // la bala no atraviesa la pared
                 Vector3 dir = dirHorizontal * distHorizontal + Vector3.up * haciaJugador.y;
                 return dir.normalized;
             }
@@ -250,6 +279,7 @@ public class Boss : MonoBehaviour
         return dirHorizontal;
     }
 
+    // El jefe acompaña la altura del jugador. Se mueve el objeto entero y no sólo su sprite ya que necesitamos que el collider también se mueva.
     void ActualizarAltura()
     {
         if (!seguirAlturaJugador || PlayerReference == null) return;
@@ -257,12 +287,9 @@ public class Boss : MonoBehaviour
         float alturaObjetivo = PlayerReference.transform.position.y + offsetAlturaJugador;
         alturaActual = Mathf.MoveTowards(alturaActual, alturaObjetivo, velocidadSeguimientoAltura * Time.deltaTime);
 
-        if (Sprite != null)
-        {
-            Vector3 pos = Sprite.transform.position;
-            pos.y = alturaActual;
-            Sprite.transform.position = pos;
-        }
+        Vector3 pos = transform.position;
+        pos.y = alturaActual;
+        transform.position = pos;
     }
 
     void Disparar(Vector3 direccion, GameObject prefab)
@@ -273,7 +300,7 @@ public class Boss : MonoBehaviour
 
         BalaProyectil proyectil = bala.GetComponent<BalaProyectil>();
         if (proyectil != null) proyectil.Inicializar(direccion, velocidadBala);
-        
+
         BalaParry parry = bala.GetComponent<BalaParry>(); // Si la bala que se creó es de tipo Parry, se le da refe del jefe.
         if (parry != null)
         {
@@ -288,30 +315,83 @@ public class Boss : MonoBehaviour
         }
     }
 
+    // Vida, daño y muerte
 
     void OnTriggerEnter(Collider other)
     {
-        BalaParry bala = other.GetComponent<BalaParry>();
+        if (muriendo) return;
+
+        BalaParry bala = other.GetComponentInParent<BalaParry>();
         if (bala == null) return;       // no es una bala parry
         if (!bala.fueDevuelta) return;  // todavía no fue devuelta, asi que no hace daño
 
-        Destroy(other.gameObject);
-        RecibirDanio(); // aia
+        Destroy(bala.gameObject);
+        RecibirDanio();
     }
 
     void RecibirDanio()
     {
         vidas--;
+
         if (vidas <= 0)
         {
             Morir();
+        }
+        else
+        {
+            ReproducirHurt();
         }
     }
 
     void Morir()
     {
-        StopAllCoroutines(); // corta el bucle de ataques
+        muriendo = true;
+        StopAllCoroutines(); // corta los ataques
+        StartCoroutine(SecuenciaMuerte());
+    }
+
+    // Reproduce anim de muerte y al terminar muere
+    IEnumerator SecuenciaMuerte()
+    {
+        if (animator != null)
+        {
+            animator.Play("Muerte", 0, 0f);
+            yield return StartCoroutine(EsperarFinAnimacion("Muerte"));
+        }
+
         Destroy(gameObject);
+    }
+
+    // Animaciones
+
+    void ReproducirAtaque()
+    {
+        if (animator == null || muriendo) return;
+
+        // No cortamos el hurt ni la intro para atacar
+        AnimatorStateInfo estado = animator.GetCurrentAnimatorStateInfo(0);
+        if (estado.IsName("Hurt") || estado.IsName("Intro")) return;
+
+        animator.Play("Ataque", 0, 0f); // el 0f reinicia la animación desde el primer frame
+    }
+
+    void ReproducirHurt()
+    {
+        if (animator == null) return;
+
+        animator.Play("Hurt", 0, 0f);
+    }
+
+    // Cuestom que espera a que termine x animacion
+    IEnumerator EsperarFinAnimacion(string nombreEstado)
+    {
+        yield return null; // dejamos pasar un frame para que cambie el estado
+
+        while (animator.GetCurrentAnimatorStateInfo(0).IsName(nombreEstado) &&
+               animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
+        {
+            yield return null;
+        }
     }
 
     // Gizmos para ver el rango de disparo
