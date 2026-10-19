@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 382546373}
   - component: {fileID: 382546372}
   - component: {fileID: 382546371}
+  - component: {fileID: 382546374}
   m_Layer: 0
   m_Name: Plane
   m_TagString: Untagged
@@ -147,7 +148,7 @@ Transform:
   m_GameObject: {fileID: 382546369}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.63, z: 0}
+  m_LocalPosition: {x: 0, y: 0.033, z: 0}
   m_LocalScale: {x: 0.13, y: 1, z: 0.16999999}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -232,6 +233,27 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 382546369}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!65 &382546374
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 382546369}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 9.999999, y: 2.2204466e-16, z: 10.000001}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &613693049
 GameObject:
   m_ObjectHideFlags: 0
@@ -242,6 +264,7 @@ GameObject:
   m_Component:
   - component: {fileID: 613693050}
   - component: {fileID: 613693051}
+  - component: {fileID: 613693052}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Untagged
@@ -257,13 +280,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 613693049}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: -0, z: 7.673}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 382546370}
-  m_Father: {fileID: 1507212306}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &613693051
 MonoBehaviour:
@@ -278,9 +301,57 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Boss
   Sprite: {fileID: 382546369}
-  BalaDanina: {fileID: 0}
-  BalaParry: {fileID: 0}
+  BalaDanina: {fileID: 5821330810865015670, guid: 54e96d92374945d49ac843fc46ceb898, type: 3}
+  BalaParry: {fileID: 3841192901683160141, guid: fb8f55686a733694d80480fea0c74c78, type: 3}
   PlayerReference: {fileID: 1871655832}
+  vidas: 4
+  ejeNormal: 0
+  invertirNormal: 0
+  anguloMaximo: 80
+  offsetSpawn: 0.05
+  seguirAlturaJugador: 1
+  offsetAlturaJugador: -0.15
+  velocidadSeguimientoAltura: 2
+  velocidadBala: 0.9
+  probabilidadParry: 0.102
+  esperaInicial: 1.5
+  pausaEntreAtaques: 1.5
+  balasPorOleada: 5
+  cantidadOleadas: 3
+  tiempoEntreOleadas: 1
+  cantidadDeTriples: 3
+  separacionTriple: 25
+  tiempoEntreTriples: 0.6
+  disparosFrancotirador: 8
+  tiempoEntreDisparos: 0.35
+  probabilidadDistraccion: 0.35
+--- !u!54 &613693052
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 613693049}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &934611697
 GameObject:
   m_ObjectHideFlags: 0
@@ -510,8 +581,7 @@ Transform:
   m_LocalPosition: {x: 0, y: -0, z: 8.24}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 613693050}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!114 &1507212307
@@ -704,4 +774,5 @@ SceneRoots:
   m_Roots:
   - {fileID: 934611700}
   - {fileID: 1871655838}
+  - {fileID: 613693050}
   - {fileID: 1507212306}
