@@ -17,7 +17,7 @@ public class BalaParry : BalaProyectil
     // Esta es la función que tenés que llamar vos MILO desde el jugador para que la bala se devuelva
     public void Devolver()
     {
-        Debug.Log("Devolver INITIALIZED");
+        Debug.Log("2 Devolver INITIALIZED");
         if (fueDevuelta) return; // no lo hago porque ya lo hice
 
         fueDevuelta = true;

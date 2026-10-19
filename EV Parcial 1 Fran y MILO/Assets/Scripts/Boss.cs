@@ -53,6 +53,11 @@ public class Boss : MonoBehaviour
     const int CantidadPatrones = 3;
     int ultimoPatron = -1;
 
+    public void AsignarJugador(GameObject jugador)
+    {
+        PlayerReference = jugador;
+    }
+
     void Start()
     {
         if (PlayerReference != null)
@@ -74,6 +79,8 @@ public class Boss : MonoBehaviour
         }
         ActualizarAltura();
     }
+
+
 
     // Arranca con un patrón al azar
     IEnumerator BucleDeAtaques()
