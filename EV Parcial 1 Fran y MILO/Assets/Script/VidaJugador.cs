@@ -10,6 +10,9 @@ public class VidaJugador : MonoBehaviour
 
     public event System.Action<int> AlCambiarVida;
     public event System.Action AlMorir;
+    
+    public event System.Action AlEntrarBalaParryable;
+    public event System.Action AlSalirBalaParryable; 
 
     private void Start()
     {
@@ -29,8 +32,6 @@ public class VidaJugador : MonoBehaviour
         VidaActual -= cantidad;
         VidaActual = Mathf.Max(VidaActual, 0);
 
-        Debug.Log("Vida Actual: " + VidaActual);
-
         if (AlCambiarVida != null)
         {
             AlCambiarVida.Invoke(VidaActual);
@@ -47,8 +48,22 @@ public class VidaJugador : MonoBehaviour
         }
     }
 
+    public void AvisarEntradaBalaParryable()
+    {
+        if (AlEntrarBalaParryable != null)
+        {
+            AlEntrarBalaParryable.Invoke();
+        }
+    }
 
-    // --- MÉTODO TEMPORAL PARA PROBAR ---
+    public void AvisarSalidaBalaParryable()
+    {
+        if (AlSalirBalaParryable != null)
+        {
+            AlSalirBalaParryable.Invoke();
+        }
+    }
+
     [ContextMenu("Probar Recibir 1 de Dano")]
     private void ProbarDano() => RecibirDano(1);
 }

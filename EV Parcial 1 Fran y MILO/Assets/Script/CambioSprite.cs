@@ -4,6 +4,7 @@ using System.Collections;
 public class CambioSprite : MonoBehaviour
 {
     [SerializeField] private VidaJugador vidaJugador;
+    [SerializeField] private AccionParry accionParry; 
     [SerializeField] private SpriteRenderer imagenJugador;
 
     [SerializeField] private Sprite imgGolpeado;
@@ -13,31 +14,37 @@ public class CambioSprite : MonoBehaviour
     [SerializeField] private Sprite imgParry;
 
     [SerializeField] private float duracionGolpe = 0.5f;
-    [SerializeField] private float duracionParry = 0.3f;
 
     private bool mostrandoGolpe = false;
     private bool mostrandoParry = false;
     private Coroutine temporizadorGolpe;
-    private Coroutine temporizadorParry;
 
     private void Start()
     {
-        if (vidaJugador == null)
-            vidaJugador = GetComponent<VidaJugador>();
+        if (vidaJugador == null) vidaJugador = GetComponent<VidaJugador>();
 
         ActualizarImagen(vidaJugador.VidaActual);
         vidaJugador.AlCambiarVida += AlPerderVida;
+
+        if (accionParry != null) 
+        {
+            accionParry.AlMostrarImagenParry += ActivarParry;
+            accionParry.AlOcultarImagenParry += DesactivarParry;
+        }
     }
 
     private void OnDestroy()
     {
-        if (vidaJugador != null)
-            vidaJugador.AlCambiarVida -= AlPerderVida;
+        if (vidaJugador != null) vidaJugador.AlCambiarVida -= AlPerderVida;
+        if (accionParry != null) 
+        {
+            accionParry.AlMostrarImagenParry -= ActivarParry;
+            accionParry.AlOcultarImagenParry -= DesactivarParry;
+        }
     }
 
     private void AlPerderVida(int vidaActual)
     {
-       
         if (vidaActual == vidaJugador.VidaMaxima && !mostrandoGolpe && !mostrandoParry)
         {
             ActualizarImagen(vidaActual);
@@ -58,33 +65,21 @@ public class CambioSprite : MonoBehaviour
     {
         mostrandoGolpe = true;
         imagenJugador.sprite = imgGolpeado;
-
         yield return new WaitForSeconds(duracionGolpe);
-
         mostrandoGolpe = false;
 
-        if (!esGolpeFinal)
-        {
-            ActualizarImagen(vidaJugador.VidaActual);
-        }
+        if (!esGolpeFinal) ActualizarImagen(vidaJugador.VidaActual);
     }
 
-    public void EjecutarParry()
+    private void ActivarParry()
     {
         if (vidaJugador.VidaActual <= 0) return;
-
-        if (temporizadorParry != null) StopCoroutine(temporizadorParry);
-        
-        temporizadorParry = StartCoroutine(MostrarImagenParry());
-    }
-
-    private IEnumerator MostrarImagenParry()
-    {
         mostrandoParry = true;
         imagenJugador.sprite = imgParry;
+    }
 
-        yield return new WaitForSeconds(duracionParry);
-
+    private void DesactivarParry()
+    {
         mostrandoParry = false;
         ActualizarImagen(vidaJugador.VidaActual);
     }
@@ -97,11 +92,4 @@ public class CambioSprite : MonoBehaviour
         else if (vidaActual == 2) imagenJugador.sprite = img2Vidas;
         else if (vidaActual == 1) imagenJugador.sprite = img1Vida;
     }
-
-    // ==========================================================
-    // HERRAMIENTA DE PRUEBA
-    // ==========================================================
-    [ContextMenu("TEST: Parry")]
-    private void Test_Parry() => EjecutarParry();
-    // ==========================================================
 }
