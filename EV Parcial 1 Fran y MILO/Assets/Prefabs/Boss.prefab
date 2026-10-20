@@ -182,8 +182,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Boss
   Sprite: {fileID: 5088368927853423306}
-  BalaDanina: {fileID: 5821330810865015670, guid: 54e96d92374945d49ac843fc46ceb898, type: 3}
-  BalaParry: {fileID: 3841192901683160141, guid: fb8f55686a733694d80480fea0c74c78, type: 3}
+  BalaDanina: {fileID: 3283749730543363220, guid: fe17f8eafa48d404f8daba5bbac70229, type: 3}
+  BalaParry: {fileID: 3283749730543363220, guid: 8afedeaceb3e6e94da903ff999769e62, type: 3}
   PlayerReference: {fileID: 0}
   vidas: 4
   ejeNormal: 0

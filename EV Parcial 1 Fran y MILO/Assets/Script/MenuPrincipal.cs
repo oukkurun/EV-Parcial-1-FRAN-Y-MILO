@@ -15,7 +15,7 @@ public class MenuPrincipal : MonoBehaviour
 
     public void Jugar()
     {
-        SceneManager.LoadScene("Escena de prueba"); 
+        SceneManager.LoadScene("Escena de Prueba"); 
         Debug.Log("El botón Jugar funciona, pero la escena del juego aún no está lista.");
     }
 
