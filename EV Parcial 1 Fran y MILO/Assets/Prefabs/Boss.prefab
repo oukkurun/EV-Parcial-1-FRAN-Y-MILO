@@ -194,7 +194,7 @@ MonoBehaviour:
   seguirAlturaJugador: 1
   offsetAlturaJugador: -0.15
   velocidadSeguimientoAltura: 2
-  velocidadBala: 0.9
+  velocidadBala: 1.2
   probabilidadParry: 1
   esperaInicial: 1.5
   pausaEntreAtaques: 1.5
