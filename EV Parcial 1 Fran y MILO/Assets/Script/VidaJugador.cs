@@ -64,4 +64,8 @@ public class VidaJugador : MonoBehaviour
         }
     }
 
+    //Probar si funca
+    [ContextMenu("Probar Recibir 1 de Dano")]
+    private void ProbarDano() => RecibirDano(1);
+
 }

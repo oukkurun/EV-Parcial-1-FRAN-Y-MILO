@@ -334,4 +334,6 @@ public class Boss : MonoBehaviour
         Gizmos.color = Color.green;
         Gizmos.DrawRay(origen, n);
     }
+
+
 }
