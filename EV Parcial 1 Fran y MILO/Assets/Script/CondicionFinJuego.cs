@@ -33,7 +33,9 @@ public class CondicionFinJuego : MonoBehaviour
         juegoTerminado = true;
 
         if (Derrota != null) Derrota.SetActive(true);
-        Time.timeScale = 0f; // Pasua el juego
+        Time.timeScale = 0f; // Congela el juego
+        
+        LimpiarBalas(); // Borra las balas en pantalla
         Debug.Log("DERROTA");
     }
 
@@ -43,7 +45,19 @@ public class CondicionFinJuego : MonoBehaviour
         juegoTerminado = true;
 
         if (Victoria != null) Victoria.SetActive(true);
-        Time.timeScale = 0f; // Pasua el juego
+        Time.timeScale = 0f; // Congela el juego
+        
+        LimpiarBalas(); // Borra las balas en pantalla
         Debug.Log("VICTORIA");
+    }
+
+    private void LimpiarBalas()
+    {
+        BalaProyectil[] balasEnEscena = FindObjectsByType<BalaProyectil>(FindObjectsSortMode.None);
+
+        foreach (BalaProyectil bala in balasEnEscena)
+        {
+            Destroy(bala.gameObject);
+        }
     }
 }

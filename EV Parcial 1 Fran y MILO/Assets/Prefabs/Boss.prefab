@@ -127,6 +127,7 @@ GameObject:
   - component: {fileID: 7973018112699823416}
   - component: {fileID: 5680372266600623608}
   - component: {fileID: 2504510369179457631}
+  - component: {fileID: 6459528611348505126}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Untagged
@@ -163,8 +164,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Boss
   Sprite: {fileID: 6092554425258451654}
-  BalaDanina: {fileID: 5821330810865015670, guid: 54e96d92374945d49ac843fc46ceb898, type: 3}
-  BalaParry: {fileID: 3841192901683160141, guid: fb8f55686a733694d80480fea0c74c78, type: 3}
+  BalaDanina: {fileID: 3283749730543363220, guid: fe17f8eafa48d404f8daba5bbac70229, type: 3}
+  BalaParry: {fileID: 3283749730543363220, guid: 8afedeaceb3e6e94da903ff999769e62, type: 3}
   PlayerReference: {fileID: 0}
   animator: {fileID: 0}
   vidas: 4
@@ -175,8 +176,8 @@ MonoBehaviour:
   seguirAlturaJugador: 1
   offsetAlturaJugador: -0.15
   velocidadSeguimientoAltura: 2
-  velocidadBala: 2.53
-  probabilidadParry: 0.204
+  velocidadBala: 5
+  probabilidadParry: 0.448
   esperaInicial: 5
   pausaEntreAtaques: 3.02
   balasPorOleada: 5
@@ -236,3 +237,15 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6459528611348505126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7033711485538941708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d34c210d43b8c044acaee3c0ecc4d66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AvisarMuerteJefe
