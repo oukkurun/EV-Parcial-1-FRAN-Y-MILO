@@ -7,7 +7,8 @@ public class AvisarMuerteJefe : MonoBehaviour
         if (Application.isPlaying)
         {
             CondicionFinJuego condicion = FindAnyObjectByType<CondicionFinJuego>();
-            if (condicion != null)
+            
+            if (condicion != null && condicion.EstaJugando())
             {
                 condicion.MostrarVictoria();
             }
