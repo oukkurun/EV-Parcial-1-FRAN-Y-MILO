@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.SceneManagement; // Necesario para cambiar de escena
+using UnityEngine.SceneManagement;
 
 public class MenuPrincipal : MonoBehaviour
 {
@@ -7,7 +7,6 @@ public class MenuPrincipal : MonoBehaviour
 
     private void Start()
     {
-        // Asegurarnos de que el panel de créditos esté oculto al inicio
         if (panelCreditos != null)
         {
             panelCreditos.SetActive(false);
@@ -18,8 +17,10 @@ public class MenuPrincipal : MonoBehaviour
 
     public void Jugar()
     {
-        // IMPORTANTE: Reemplazá "Escena Milo" por el nombre exacto de tu escena de juego
-        SceneManager.LoadScene("Escena Milo"); 
+        // Cargar Escena de Juego
+        // SceneManager.LoadScene("Escena Milo"); 
+        
+        Debug.Log("Mira Mamí estoy jugando, estoy jugando.");
     }
 
     public void MostrarCreditos()
@@ -41,9 +42,8 @@ public class MenuPrincipal : MonoBehaviour
     public void Salir()
     {
         Debug.Log("Saliendo del juego...");
-        Application.Quit(); // Cierra la aplicación en el celular
-        
-        // Esto hace que también se cierre en el editor de Unity
+        Application.Quit(); 
+
         #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
         #endif
