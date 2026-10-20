@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class AccionParry : MonoBehaviour
 {
@@ -48,16 +49,21 @@ public class AccionParry : MonoBehaviour
             Vector2 posicionToque = Vector2.zero;
             bool hayToque = false;
 
-            if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+            // Touch
+            if (Touchscreen.current != null &&
+                Touchscreen.current.primaryTouch.press.wasPressedThisFrame)
             {
                 hayToque = true;
-                posicionToque = Input.GetTouch(0).position;
+                posicionToque = Touchscreen.current.primaryTouch.position.ReadValue();
             }
-            else if (Input.GetMouseButtonDown(0)) 
+            // Clic
+            else if (Mouse.current != null &&
+                     Mouse.current.leftButton.wasPressedThisFrame)
             {
                 hayToque = true;
-                posicionToque = Input.mousePosition;
+                posicionToque = Mouse.current.position.ReadValue();
             }
+
 
             if (hayToque)
             {
