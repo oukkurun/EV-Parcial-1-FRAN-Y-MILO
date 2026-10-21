@@ -4,7 +4,7 @@ public class AvisarMuerteJefe : MonoBehaviour
 {
     private void OnDestroy()
     {
-        if (Application.isPlaying)
+        if (Application.isPlaying && gameObject.scene.isLoaded)
         {
             CondicionFinJuego condicion = FindAnyObjectByType<CondicionFinJuego>();
             

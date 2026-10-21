@@ -4,17 +4,16 @@ using UnityEngine;
 public class SpawnJefeEnTarget : MonoBehaviour
 {
     [SerializeField] GameObject jefePrefab;
-    [SerializeField] GameObject playerReference; //ARcamera
-    [SerializeField] float tiempoDeEspera = 0.5f; // Es mejor esperar un toque para que agarre bien el image target antes de instanciar el jefe
+    [SerializeField] GameObject playerReference;
+    [SerializeField] float tiempoDeEspera = 0.5f;
 
     bool yaAparecio = false;
+    GameObject jefeInstanciado;
 
     public void AlDetectarTarget()
     {
-        // Solo la primera vez que se ve el target
         if (yaAparecio) return;
         yaAparecio = true;
-
         StartCoroutine(EsperarYAparecer());
     }
 
@@ -22,13 +21,24 @@ public class SpawnJefeEnTarget : MonoBehaviour
     {
         yield return new WaitForSeconds(tiempoDeEspera);
 
-        // No lo hacemos hijo del target porque puede ir desapareciendo cuando no vea la imagen y no es lo que queremos.
-        GameObject jefe = Instantiate(jefePrefab, transform.position, transform.rotation);
+        jefeInstanciado = Instantiate(jefePrefab, transform.position, transform.rotation);
 
-        Boss boss = jefe.GetComponent<Boss>();
+        Boss boss = jefeInstanciado.GetComponent<Boss>();
         if (boss != null)
         {
             boss.AsignarJugador(playerReference);
+        }
+    }
+
+    private void Update()
+    {
+        // Mantiene al jefe pegado al portal
+        if (jefeInstanciado != null)
+        {
+            Vector3 pos = jefeInstanciado.transform.position;
+            pos.x = transform.position.x;
+            pos.z = transform.position.z;
+            jefeInstanciado.transform.position = pos;
         }
     }
 }

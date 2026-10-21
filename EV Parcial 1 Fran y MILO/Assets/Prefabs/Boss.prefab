@@ -176,19 +176,19 @@ MonoBehaviour:
   seguirAlturaJugador: 1
   offsetAlturaJugador: -0.15
   velocidadSeguimientoAltura: 2
-  velocidadBala: 5
-  probabilidadParry: 0.448
-  esperaInicial: 5
-  pausaEntreAtaques: 3.02
+  velocidadBala: 4
+  probabilidadParry: 0.7
+  esperaInicial: 3
+  pausaEntreAtaques: 3
   balasPorOleada: 5
   cantidadOleadas: 3
-  tiempoEntreOleadas: 3.89
+  tiempoEntreOleadas: 5
   cantidadDeTriples: 3
   separacionTriple: 25
-  tiempoEntreTriples: 3.2
+  tiempoEntreTriples: 5
   disparosFrancotirador: 8
   tiempoEntreDisparos: 0.8
-  probabilidadDistraccion: 0.452
+  probabilidadDistraccion: 0.8
 --- !u!54 &5680372266600623608
 Rigidbody:
   m_ObjectHideFlags: 0

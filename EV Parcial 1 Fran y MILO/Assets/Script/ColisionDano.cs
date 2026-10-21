@@ -10,6 +10,9 @@ public class ColisionDano : MonoBehaviour
         {
             vidaJugador.RecibirDano(1);
             Debug.Log("Impacto de bala. Perdiste 1 vida.");
+            
+            // Destruimos la bala al impactar para que no haga daño doble
+            Destroy(other.gameObject); 
         }
     }
 }

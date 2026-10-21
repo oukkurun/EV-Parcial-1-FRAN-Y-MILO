@@ -8,29 +8,31 @@ public class BalaParry : BalaProyectil
     Transform objetivoJefe;
     public bool fueDevuelta { get; private set; }
 
-    // Se guarda refe del jefe para que se sepa donde está al momento de devolver la bala e ir hacia él
     public void AsignarJefe(Transform jefe)
     {
         objetivoJefe = jefe;
     }
 
-    // Esta es la función que tenés que llamar vos MILO desde el jugador para que la bala se devuelva
     public void Devolver()
     {
         Debug.Log("2 Devolver INITIALIZED");
-        if (fueDevuelta) return; // no lo hago porque ya lo hice
+        if (fueDevuelta) return; 
 
         fueDevuelta = true;
 
         if (objetivoJefe != null)
         {
-            Vector3 haciaJefe = objetivoJefe.position; 
-            direccion = haciaJefe.normalized;
+            // Dirección de la bala hacia el jefe
+            Vector3 haciaJefe = (objetivoJefe.position - transform.position).normalized;
+            direccion = haciaJefe;
             transform.rotation = Quaternion.LookRotation(direccion);
-
-            //MoveTowards<objetivoJefe.position>();
+            
+            velocidad *= multiplicadorVelocidadDevuelta;
         }
-
-        velocidad *= multiplicadorVelocidadDevuelta;
+        else
+        {
+            // Si el jefe ya no está, la bala desaparece
+            Destroy(gameObject);
+        }
     }
 }
